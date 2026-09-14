@@ -1,0 +1,13 @@
+name: qt-mimiciv-release
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy=2.1
+  - pandas=2.2
+  - scipy=1.14
+  - matplotlib=3.9
+  - pyarrow=17
+
+# Source-pipeline versions reported in the manuscript:
+# R 4.5.0; data.table 1.18.4; DuckDB 1.5.5.

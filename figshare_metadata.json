@@ -1,0 +1,23 @@
+{
+  "title": "Within-patient QTcF analysis of MIMIC-IV with prespecified negative controls",
+  "description": "Code, nonidentifying aggregate results, publication figures, and reporting documentation supporting a within-patient analysis of drug-associated QTcF differences in critically ill adults. Patient-level and stay-level MIMIC-derived data are excluded under PhysioNet access restrictions.",
+  "keywords": [
+    "QT interval",
+    "pharmacoepidemiology",
+    "negative controls",
+    "MIMIC-IV",
+    "intensive care",
+    "electrocardiography"
+  ],
+  "categories": ["Medicine", "Pharmacology", "Epidemiology"],
+  "item_type": "software",
+  "license": "MIT",
+  "authors": ["Daniele Orso"],
+  "version": "1.0.0",
+  "doi": null,
+  "related_material": {
+    "manuscript_doi": null,
+    "github_url": null
+  },
+  "data_access_note": "MIMIC-IV and MIMIC-IV-ECG source data and all patient-level derivatives require PhysioNet credentialing and are not included."
+}

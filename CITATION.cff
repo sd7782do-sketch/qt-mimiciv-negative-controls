@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this code or aggregate output, please cite the associated manuscript and this software release."
+title: "Within-patient QTcF analysis of MIMIC-IV with negative controls"
+type: software
+authors:
+  - family-names: Orso
+    given-names: Daniele
+version: 1.0.0
+date-released: 2026-09-14
+license: MIT
+repository-code: "[INSERT GITHUB RELEASE URL]"
+abstract: "Code and nonidentifying aggregate outputs for HC3 inference, precision weighting, empirical negative-control calibration, and figure generation. Restricted MIMIC-derived patient-level data are not included."
+keywords:
+  - QT interval
+  - pharmacoepidemiology
+  - negative controls
+  - MIMIC-IV
+  - intensive care
