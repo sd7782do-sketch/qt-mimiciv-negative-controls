@@ -1,0 +1,9 @@
+stage,role,count,detail
+prespecified_map,candidate,27,Candidate QT-active drugs mapped
+prespecified_map,negative_control,8,Prespecified negative controls mapped
+administration_identified,candidate,26,Droperidol had no identified event
+administration_identified,negative_control,8,All controls had identified events
+feasibility_threshold,candidate,16,At least 200 discordant pairs
+feasibility_threshold,negative_control,8,At least 200 discordant pairs
+primary_model_estimable,candidate,13,At least 80 complete cases
+primary_model_not_estimable,candidate,3,Citalopram erythromycin and sertraline
