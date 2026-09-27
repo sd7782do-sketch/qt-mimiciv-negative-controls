@@ -1,60 +1,58 @@
-# Drug-associated QTcF differences in MIMIC-IV
+# QT within-patient reanalysis (MIMIC-IV / MIMIC-IV-ECG)
 
-This repository contains code and nonidentifying aggregate outputs supporting the manuscript **Drug-associated differences in the Fridericia-corrected QT interval in critically ill adults: a within-patient analysis of MIMIC-IV with prespecified negative controls**.
+Code and non-identifying aggregate outputs for a within-patient analysis of the
+Fridericia-corrected QT interval in intensive care, including a time-based
+pseudo-exposure contrast used to characterise the residual displacement detected
+by prespecified negative-control drugs.
 
-## Study overview
+No patient-level or stay-level MIMIC-derived data are included. MIMIC-IV and
+MIMIC-IV-ECG require PhysioNet credentialing and acceptance of the applicable
+data use agreement.
 
-The study links MIMIC-IV intensive care medication administrations to MIMIC-IV-ECG measurements. Each patient contributes exposed and unexposed electrocardiograms. The prespecified primary analysis uses Fridericia-corrected QT (QTcF), narrow-QRS electrocardiograms, a 24-hour exposure window, covariate-adjusted ordinary least squares models with HC3 standard errors, Benjamini-Hochberg correction, and eight negative-control drugs. A precision-weighted analysis and empirical calibration are secondary analyses.
+## Contents
 
-## Public contents
+### `code/`
 
-- `code/analyse_phase3b.py`: reproduces the primary HC3, precision-weighted, and calibrated estimates from the restricted patient-level analysis input.
-- `code/make_release_figures.py`: recreates Figures 2 and 3 and Supplementary Figure S11 from aggregate results and prespecified flow counts.
-- `code/validate_release.py`: checks numerical and disclosure safeguards in the public release.
-- `results/phase3b_hc3_precision_results.csv`: drug-level aggregate estimates.
-- `results/phase3b_replication_check.csv`: aggregate comparison with the original conventional-OLS results.
-- `results/drug_flow_counts.csv`: aggregate drug-selection flow counts.
-- `figures/`: publication-ready figures and the supplementary flow diagram.
-- `docs/`: analysis protocol summary, aggregate-output dictionary, transparency statement, and STROBE/RECORD crosswalk.
+| Script | Purpose |
+| --- | --- |
+| `analyse_phase3b.py` | Original feasibility and primary analysis pipeline (phases 2–3b) |
+| `qt_01_extract_admin.R` | Extraction of administration timestamps from eMAR and ICU infusion records (DuckDB). Drug-name patterns are treated as regular expressions, as in the prespecified drug map |
+| `qt_02_reanalysis.R` | Exposure classification under look-back, washout and pre-exposure definitions; contrast construction; marginal and HC3 inference; time-based pseudo-exposure contrast; baseline-QTcF stratification; empirical calibration; false discovery rate |
+| `qt_03_finish.R` | Coverage diagnostics for the event-based exposure definition; baseline-slope figure; calibration tables; word counts; assembly of this repository |
+| `qt_04_fix_missing_drugs.R` | Diagnostic for drugs yielding no extracted administration events |
+| `qt_05_acetaminophen_sensitivity.R` | Acetaminophen restricted to single-ingredient products, and refitting of the systematic-error distribution |
+| `qt_06_lab_gap.R` | Distribution of the interval between the laboratory measurement and the electrocardiogram |
 
-## Restricted source data
+### `results/`
 
-MIMIC-IV and MIMIC-IV-ECG are credentialed-access resources distributed through PhysioNet. Patient-level, stay-level, ECG-level, and medication-administration-level derived files are deliberately excluded from this release. Eligible researchers must complete the required training, sign the applicable data use agreement, obtain both source datasets from PhysioNet, and reconstruct the analytic input locally.
+Aggregate outputs, one file per analysis block. Files numbered `01`–`08` are
+produced by `qt_02_reanalysis.R`; files prefixed `A`–`E` by `qt_03`, `qt_05` and
+`qt_06`. `feas_00_drug_map.csv` is the prespecified map of candidate drugs,
+negative controls and matching patterns. `qt_admin_coverage.csv` and
+`qt_emar_event_audit.csv` document the administration extraction.
+`sessionInfo.txt` records the computational environment.
 
-The Phase 3B verification script expects the restricted input file at:
+### `figures/`
 
-```text
-data/phase3b_patient_covariate_pairs.csv
-```
+Figures as submitted, at 600 dpi.
 
-It also expects the aggregate conventional-OLS output at:
+### `docs/`
 
-```text
-data/phase3b_primary_results.csv
-```
+STROBE and RECORD reporting checklists.
 
-Do not commit either restricted input file to a public repository.
+## Reproducing
 
-## Software
+Set the paths in the `CFG` block at the top of each script and run them in
+numerical order. `qt_01` must precede `qt_02` if the event-based exposure
+definitions are required; the look-back definitions run without it. Requires R
+with `data.table`, `ggplot2`, `DBI` and `duckdb`, and credentialed access to
+MIMIC-IV and MIMIC-IV-ECG.
 
-The source pipeline used R 4.5.0, data.table 1.18.4, and DuckDB 1.5.5. The independent HC3 verification script uses Python 3 with NumPy, pandas, SciPy, and Matplotlib; exact compatible dependencies are listed in `environment.yml`.
+## Note on an earlier release
 
-## Reproduction
+An earlier release of this repository listed directories that were not included
+in the archive. This release supersedes it.
 
-After placing the authorized restricted inputs under `data/`:
+## Licence
 
-```bash
-python code/analyse_phase3b.py
-python code/make_release_figures.py
-python code/validate_release.py
-```
-
-The scripts write aggregate outputs only. Before any public upload, run the validation script and confirm that no file contains patient or stay identifiers.
-
-## Citation
-
-Use the metadata in `CITATION.cff`. Add the GitHub release URL and Figshare DOI only after those records have been created. No DOI is assigned in this package.
-
-## License and data-use restrictions
-
-Repository code is released under the MIT License. This license does not apply to MIMIC-IV, MIMIC-IV-ECG, or any patient-level derivative. Access to and use of those data remain governed by PhysioNet's credentialed data license and data use agreement.
+See `LICENSE`.
